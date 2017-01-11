@@ -2028,7 +2028,7 @@ function MetaMapNotes_MiniNote_OnUpdate(delay)
 				deltax = math.cos(m) * mapWidth * adjust
 				deltay = math.sin(m) * mapWidth * adjust
 			end
-			MiniNotePOI:SetPoint("CENTER", "MinimapCluster", "CENTER",  deltax+9,  - deltay+4)
+			MiniNotePOI:SetPoint("CENTER", "Minimap", "CENTER",  deltax,  - deltay)
 			MiniNotePOI:Show()
 		else
 			MiniNotePOI:Hide()
