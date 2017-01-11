@@ -73,7 +73,6 @@ MetaMapNotes_SetNextAsMiniNote = 0;
 MetaMapNotes_LastLineClick.time = 0;
 MetaMapNotes_Qnote = false;
 MetaMapNotes_MiniNote_IsInCity = false;
-MetaMapNotes_MiniNote_MapzoomInit = false;
 MetaMapNotes_vnote_xPos = nil;
 MetaMapNotes_vnote_yPos = nil;
 MetaMapNotes_PartyNoteSet = false;
@@ -253,6 +252,7 @@ function MetaMap_OnEvent(event)
 		MetaMap_CurrentSaveSet = MetaMapOptions.SaveSet;
 		MetaMapOptions_Init();
 		MetaMapMenu_Init();
+		MetaMapNotes_MinimapUpdateZoom();
 		if(myAddOnsFrame_Register) then
 			myAddOnsFrame_Register(MetaMap_Details);
 		end
@@ -1939,13 +1939,6 @@ function MetaMapNotes_NextMiniNoteOnly(msg)
 end
 
 function MetaMapNotes_MinimapUpdateZoom()
-	if MetaMapNotes_MiniNote_MapzoomInit then
-		if MetaMapNotes_MiniNote_IsInCity then
-			MetaMapNotes_MiniNote_IsInCity = false
-		else
-			MetaMapNotes_MiniNote_IsInCity = true
-		end
-	else
 		local tempzoom = 0
 		if GetCVar("minimapZoom") == GetCVar("minimapInsideZoom") then
 			if GetCVar("minimapInsideZoom")+0 >= 3 then
@@ -1964,8 +1957,6 @@ function MetaMapNotes_MinimapUpdateZoom()
 		end
 
 		Minimap:SetZoom(Minimap:GetZoom() + tempzoom)
-		MetaMapNotes_MiniNote_MapzoomInit = true
-	end
 end
 
 function MetaMapNotes_MiniNote_OnUpdate(delay)
@@ -2013,7 +2004,20 @@ function MetaMapNotes_MiniNote_OnUpdate(delay)
 			y = y * currentConst.scale + currentConst.yoffset
 			local deltax = (xpos - x) * xscale
 			local deltay = (ypos - y) * yscale
-			if sqrt( (deltax * deltax) + (deltay * deltay) ) > 56.5 then
+			
+			local iconDiameter = ((MiniNotePOI:GetWidth() / 2) -3)
+			local mapWidth = Minimap:GetWidth()/2 - iconDiameter;
+			local mapHeight = Minimap:GetHeight()/2 - iconDiameter;
+			
+			if (Squeenix or (simpleMinimap_Skins and simpleMinimap_Skins:GetShape() == "square")) then 
+				
+				if (math.abs(deltax) > (mapWidth)) then 
+					deltax = (mapWidth)*(((deltax<0) and -1) or 1); 
+				end
+				if (math.abs(deltay) > mapHeight) then 
+					deltay = (mapHeight)*(((deltay<0) and -1) or 1); 
+				end
+			elseif sqrt( (deltax * deltax) + (deltay * deltay) ) > (mapWidth-0.5) then
 				local adjust = 1
 				if deltax == 0 then
 					deltax = deltax + 0.0000000001
@@ -2021,10 +2025,10 @@ function MetaMapNotes_MiniNote_OnUpdate(delay)
 					adjust = -1
 				end
 				local m = math.atan(deltay / deltax)
-				deltax = math.cos(m) * 57 * adjust
-				deltay = math.sin(m) * 57 * adjust
+				deltax = math.cos(m) * mapWidth * adjust
+				deltay = math.sin(m) * mapWidth * adjust
 			end
-			MiniNotePOI:SetPoint("CENTER", "MinimapCluster", "TOPLEFT", 105 + deltax, -93 - deltay)
+			MiniNotePOI:SetPoint("CENTER", "MinimapCluster", "CENTER",  deltax+9,  - deltay+4)
 			MiniNotePOI:Show()
 		else
 			MiniNotePOI:Hide()
