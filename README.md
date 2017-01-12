@@ -40,6 +40,11 @@ ADDED:
 - Arrow placement now saved
 
 
+DOWNLOAD:
+=========
+
+https://github.com/laytya/Metamap-vanilla/releases
+
 ISSUES/COMPATIBILITIES:
 =======================
 Some addons may reset the map to gather location data.
