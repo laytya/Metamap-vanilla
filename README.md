@@ -36,7 +36,7 @@ Select the 'Database' tab, then click 'Load Imports'. This will enable the defau
 
 ADDED:
 ======
-
+v.11200-10:
 - Square Minimap support
 - Arrow placement now saved
 
