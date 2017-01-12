@@ -27,6 +27,7 @@ Inbuilt Backup and Restore facilities.
 Button on Minimap to open or close the World Map or display MetaMap options.
 Key bindings for various MetaMap functions.
 Full support for Titan Bar.
+Work with Questy, VanillaGuide and more...
 
 INSTALLATION:
 =============
