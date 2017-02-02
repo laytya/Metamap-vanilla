@@ -2009,7 +2009,8 @@ function MetaMapNotes_MiniNote_OnUpdate(delay)
 			local mapWidth = Minimap:GetWidth()/2 - iconDiameter;
 			local mapHeight = Minimap:GetHeight()/2 - iconDiameter;
 			
-			if (Squeenix or (simpleMinimap_Skins and simpleMinimap_Skins:GetShape() == "square")) then 
+			if (Squeenix or (simpleMinimap_Skins and simpleMinimap_Skins:GetShape() == "square")
+				or (pfUI and pfUI_config["disabled"]["minimap"] ~= "1")) then 
 				
 				if (math.abs(deltax) > (mapWidth)) then 
 					deltax = (mapWidth)*(((deltax<0) and -1) or 1); 
