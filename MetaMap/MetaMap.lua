@@ -2010,7 +2010,7 @@ function MetaMapNotes_MiniNote_OnUpdate(delay)
 			local mapHeight = Minimap:GetHeight()/2 - iconDiameter;
 			
 			if (Squeenix or (simpleMinimap_Skins and simpleMinimap_Skins:GetShape() == "square")
-				or (pfUI and pfUI_config["disabled"]["minimap"] ~= "1")) then 
+				or (pfUI and pfUI.minimap)) then 
 				
 				if (math.abs(deltax) > (mapWidth)) then 
 					deltax = (mapWidth)*(((deltax<0) and -1) or 1); 
