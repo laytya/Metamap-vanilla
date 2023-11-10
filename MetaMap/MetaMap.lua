@@ -423,14 +423,14 @@ function MetaMap_GetCurrentMapInfo()
 		zone = MetaMapOptions.MetaMapZone;
 		currentZone = MetaMapNotes_Data[continent][zone];
 		mapName = MetaMap_Data[zone]["ZoneName"];
-	elseif(continent == -1) then
+	elseif(continent == -1 or 2 < continent) then
 		if(MetaMapNotes_Data[GetRealZoneText()] == nil) then
 			MetaMapNotes_Data[GetRealZoneText()] = {};
 			MetaMapNotes_Lines[GetRealZoneText()] = {};
 		end
 		currentZone = MetaMapNotes_Data[GetRealZoneText()];
 		mapName = GetRealZoneText();
-	elseif(continent > 0) then
+	elseif(0 < continent and continent < 3) then
 		currentZone = MetaMapNotes_Data[continent][zone];
 		mapName = MetaMap_ZoneNames[continent][zone];
 	end
@@ -1608,7 +1608,7 @@ function MetaMapNotes_AddNewNote(continent, zone, xPos, yPos, name, inf1, inf2, 
 	end
 	if(MetaMapNotes_SetNextAsMiniNote ~= 0) then
 		for i=0, index, 1 do
-		if(currentZone[i] ~= nil) then
+		if(currentZone and currentZone[i] ~= nil) then
 			if(currentZone[i].name == name and currentZone[i].xPos == xPos and currentZone[i].yPos == yPos) then
 				id = i;
 				break;
@@ -2697,8 +2697,8 @@ function MetaMapNotes_WorldMapButton_OnUpdate(...)
 	MetaMapNotes_Drawing = true;
 
 	if(currentZone) then
-		if(continent ==-1) then
-			currentLineZone = MetaMapNotes_Lines[GetRealZoneText];
+		if(continent ==-1 or 2 < continent) then
+			currentLineZone = MetaMapNotes_Lines[GetRealZoneText()];
 		else
 			currentLineZone = MetaMapNotes_Lines[continent][zone];
 		end
